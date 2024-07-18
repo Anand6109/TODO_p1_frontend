@@ -16,7 +16,7 @@ function App() {
     setLoading(true);
     axios
       .get(`${server}/users/me`, {
-        withCredentials: true,
+        withCredentials: true,  // Ensure this is correctly placed inside the options object
       })
       .then((res) => {
         setUser(res.data.user);
@@ -24,11 +24,12 @@ function App() {
         setLoading(false);
       })
       .catch((error) => {
+        console.error("Error fetching profile:", error);
         setUser({});
         setIsAuthenticated(false);
         setLoading(false);
       });
-  }, []);
+  }, [setUser, setIsAuthenticated, setLoading]);  // Ensure dependencies are correctly listed
 
   return (
     <Router>
@@ -37,7 +38,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
       <Toaster />
     </Router>
